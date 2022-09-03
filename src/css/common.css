@@ -16,3 +16,29 @@ img {
   display: block;
   max-width: 100%;
 }
+.timer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+}
+.field {
+  display: block;
+
+  border-radius: 5%;
+  margin: 0 2%;
+  padding-bottom: 2%;
+  width: 20%;
+  background-color: slategrey;
+  color: azure;
+}
+.value,
+.label {
+  display: block;
+  text-align: center;
+}
+.value {
+  font-size: 5rem;
+  border-bottom: #212121 solid 2px;
+  margin-left: 3%;
+  margin-right: 3%;
+}
