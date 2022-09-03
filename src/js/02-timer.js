@@ -22,20 +22,19 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  idInt: 0,
   onClose(selectedDates) {
     const initTimeStr = new Date(selectedDates[0]);
-    let idInt = options.idInt;
-    console.log(idInt);
+
     const initTime = initTimeStr.getTime();
     const timer = new ReverseTimer(initTime);
-    startBtn.addEventListener('click', timer.onClickRunTimer.bind(timer));
+
+    startBtn.addEventListener(
+      'click',
+      timer.onClickRunTimer.bind(timer),
+      'once'
+    );
+
     timer.checkInitTime();
-  },
-  onOpen({ idInt }) {
-    // console.log('onOpen', this);
-    console.log(options.idInt);
-    if (options.idInt) clearInterval(options.idInt);
   },
 };
 
@@ -52,13 +51,15 @@ class ReverseTimer {
     this.startBtn.removeAttribute('disabled');
   }
 
-  setTimerValue(elem, elemName, namerOfChar = 2) {
+  setTimerValue(elem, elemName) {
     document.querySelector(`[data-${elemName}]`).textContent = this.pad(elem);
   }
 
   onClickRunTimer() {
     const endTimer = this.initTime;
-    options.idInt = setInterval(() => {
+
+    clearInterval(this.idInt);
+    this.idInt = setInterval(() => {
       const presentTime = Date.now();
       const deltaTime = endTimer - presentTime;
       if (deltaTime < 0) {
@@ -67,6 +68,9 @@ class ReverseTimer {
         return;
       }
       const { days, hours, minutes, seconds } = this.convertMs(deltaTime);
+      console.log(
+        `this.idInt ${this.idInt} day ${days}, hours ${hours}, minutes${minutes}, seconds${seconds}`
+      );
       this.setTimerValue(days, 'days');
       this.setTimerValue(hours, 'hours');
       this.setTimerValue(minutes, 'minutes');
@@ -104,4 +108,4 @@ class ReverseTimer {
   }
 }
 const fp = flatpickr('#datetime-picker', options);
-console.log(fp);
+// console.log(fp);
